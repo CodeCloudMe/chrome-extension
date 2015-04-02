@@ -1,0 +1,3 @@
+wget --quiet -O - 'http://btcrecords-medicinebottle.rhcloud.com/cloud/models/btc/getLatestPrices.php';
+wget --quiet -O - 'http://btcrecords-medicinebottle.rhcloud.com/cloud/models/btc/getLatestPricesKorbit.php';
+

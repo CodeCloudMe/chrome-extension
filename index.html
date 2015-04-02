@@ -1,0 +1,190 @@
+<html>
+
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+
+
+<script>
+
+
+$(window).load(init);
+
+function init(){
+	 getData();
+	//getChart();
+}
+
+
+function getData(){
+
+	$.getJSON('/cloud/models/btc/bfChart.php', function(resp){
+
+		allPrices = [];
+		allBids = [];
+		allAsks=[];
+
+        allPrices1 = [];
+        allBids1 = [];
+        allAsks1=[];
+
+        allPricesk = [];
+        allBidsk = [];
+        allAsksk =[];
+
+
+        resp[0].reverse();
+        resp[1].reverse();
+        resp[2].reverse();
+
+
+		//resp.reverse();
+
+		//startTime = new Date(resp[0]['timestamp']).getTime();
+
+
+		for (i in resp[0]){
+
+			allPrices.push([new Date(resp[0][i]['timestamp']).getTime(), parseFloat(resp[0][i]['price'])]);
+			allBids.push([new Date(resp[0][i]['timestamp']).getTime(), parseFloat(resp[0][i]['bid'])]);
+			allAsks.push([new Date(resp[0][i]['timestamp']).getTime(), parseFloat(resp[0][i]['ask'])]);
+
+		}
+
+            for (i in resp[1]){
+
+            allPrices1.push([new Date(resp[1][i]['timestamp']).getTime(), parseFloat(resp[1][i]['price'])]);
+            allBids1.push([new Date(resp[1][i]['timestamp']).getTime(), parseFloat(resp[1][i]['bid'])]);
+            allAsks1.push([new Date(resp[1][i]['timestamp']).getTime(), parseFloat(resp[1][i]['ask'])]);
+
+        }
+
+        for (i in resp[2]){
+
+            allPricesk.push([new Date(resp[2][i]['timestamp']).getTime(), parseFloat(resp[2][i]['price'])]);
+            allBidsk.push([new Date(resp[2][i]['timestamp']).getTime(), parseFloat(resp[2][i]['bid'])]);
+            allAsksk.push([new Date(resp[2][i]['timestamp']).getTime(), parseFloat(resp[2][i]['ask'])]);
+
+        }
+
+		getChart(allPrices, allBids, allAsks, allPrices1, allBids1, allAsks1, allPricesk, allBidsk, allAsksk);
+	})
+}
+
+
+function  getChart(prices, bidPrices1, askPrices1, prices2, bidPrices2, askPrices2, prices3, bidPrices3, askPrices3 ) {
+    $('#container').highcharts({
+        chart: {
+            type: 'spline',
+            zoomType:'x'
+        },
+        title: {
+            text: 'Bitfinix prices'
+        },
+        subtitle: {
+            text: 'Yup'
+        },
+        xAxis: {
+            type: 'datetime',
+           /* labels: {
+                overflow: 'justify'
+            }*/
+        },
+        yAxis: {
+            title: {
+                text: 'price'
+            },
+            //min: 0,
+           // minorGridLineWidth: 0,
+           // gridLineWidth: 0,
+            alternateGridColor: null,
+          
+        },
+        tooltip: {
+            valueSuffix: ' $'
+        },
+        plotOptions: {
+            spline: {
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 5
+                    }
+                },
+                marker: {
+                    enabled: true
+                },
+                //pointInterval: (1000* 60),
+               // pointStart: startTimestamp
+            }
+        },
+        series: [{
+            name: 'Bitfinex',
+            data: prices
+
+        },
+       {
+            name: 'BF Ask',
+            data: askPrices1
+
+        },
+        {
+            name: 'BF Bids',
+            data: bidPrices1
+
+        },
+
+
+
+        {
+            name: 'Bitstamp',
+            data: prices2
+
+        },
+        {
+            name: 'Bitstamp Ask',
+            data: askPrices2
+
+        },
+        {
+            name: 'Bitstamp Bids',
+            data: bidPrices2
+
+        },
+
+
+        {
+            name: 'Korbit',
+            data: prices3
+
+        },
+        {
+            name: 'Korbit Ask',
+            data: askPrices3
+
+        },
+        {
+            name: 'Korbit Bids',
+            data: bidPrices3
+
+        }
+
+        //add another here {name: 'ddd', data:lah}
+
+        ],
+        navigation: {
+            menuItemStyle: {
+                fontSize: '10px'
+            }
+        }
+    });
+};
+
+</script>
+
+</html>
