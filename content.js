@@ -42,18 +42,18 @@ function getBitData(){
 		sum= $(this).find('.sum').html(); 
 		value=  $(this).find('.value').html(); 
 		price=  $(this).find('.price').html(); 
-		amount=  $(this).find('.amount').html(); 
+		amount=  $(this).find('.amount').text(); 
 		allGlows.push([sum, value, price, amount]);
 
 		$.ajax({
-			'url':'http://bitscrape-medicinebottle.rhcloud.com/cloud/models/btc/save.php',
+			'url':'https://btcrecords-medicinebottle.rhcloud.com/cloud/models/btc/Bitstampscrapesave.php',
 
 			'data':{
 
-				'sum':allGlows1[0],
-				'value':allGlows1[1],
-				'price':allGlows1[2],
-				'amount':allGlows1[3]
+				'sum':sum,
+				'value':value,
+				'price':price,
+				'amount':amount
 			},
 
 			'complete':function(transport){
