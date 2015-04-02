@@ -1,0 +1,18 @@
+{
+  "name": "Example Extension",
+  "version": "0.2",
+  "description": "This is a Google Chrome Example Extension",
+  "background": {
+    "scripts": ["bg.js"]
+  },
+  "icons": { "128": "icon.png" },
+  "permissions": [
+    "tabs"
+  ],
+  "content_scripts": [ {
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["content.js"],
+    "all_frames": true
+  }],
+  "manifest_version": 2
+}
